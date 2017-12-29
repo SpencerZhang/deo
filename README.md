@@ -3,6 +3,8 @@
 
 ## 运行程序前请配置数据源
  **jdbc.properties**
+## 需JDK8
+ 
 ### 导出package请修改PackagesExport类main方法数据库用户变量
 
 ## 运行请直接执行PackagesExport和TablesExport
