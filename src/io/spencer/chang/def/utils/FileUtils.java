@@ -32,8 +32,7 @@ public class FileUtils {
 				.append("\n").append("prompt").append("\n").append("prompt Creating table ").append(tableName)
 				.append("\n").append("prompt ================================").append("\n").append("prompt")
 				.append("\n").append("\n").append("create table ").append(tableName).append("\n")
-				.append(SQLUtils.LEFTPARENTHESE).append("\n");
-		// System.out.println(fileHeader);
+				.append(SqlUtils.LEFTPARENTHESE).append("\n");
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new FileWriter(file));
@@ -61,19 +60,18 @@ public class FileUtils {
 	public static void writeFileColumns(File file, ArrayList<Column> columns) {
 		StringBuffer fileColumns = new StringBuffer();
 		for (Column column : columns) {
-			fileColumns.append(column.getColumn_name()).append(SQLUtils.SPACE).append(column.getData_type())
-					.append(SQLUtils.SPACE);
-			if (column.getData_type().matches("VARCHAR2"))
-				fileColumns.append(SQLUtils.LEFTPARENTHESE).append(column.getData_length())
-						.append(SQLUtils.RIGHTPARENTHESE).append(SQLUtils.SPACE);
-
-			if (column.getNullable().matches("N"))
-				fileColumns.append(SQLUtils.NOTNULL);
-
-			fileColumns.append(SQLUtils.COMMA).append("\n");
+			fileColumns.append(column.getColumnName()).append(SqlUtils.SPACE).append(column.getDataType())
+					.append(SqlUtils.SPACE);
+			if (column.getDataType().matches("VARCHAR2")) {
+				fileColumns.append(SqlUtils.LEFTPARENTHESE).append(column.getDataLength())
+						.append(SqlUtils.RIGHTPARENTHESE).append(SqlUtils.SPACE);
+			}
+			if (column.getNullAble().matches("N")) {
+				fileColumns.append(SqlUtils.NOTNULL);
+			}
+			fileColumns.append(SqlUtils.COMMA).append("\n");
 		}
-		fileColumns.append(SQLUtils.RIGHTPARENTHESE).append(";").append("\n");
-		// System.out.println(fileColumns);
+		fileColumns.append(SqlUtils.RIGHTPARENTHESE).append(";").append("\n");
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
@@ -101,11 +99,10 @@ public class FileUtils {
 	public static void writeFileTableComment(File file, String tableName, String tableComment) {
 		StringBuffer fileTableComment = new StringBuffer();
 		// is '应收发票类型';
-		if (tableComment != null && tableComment != "")
-			fileTableComment.append("comment on table").append(SQLUtils.SPACE).append(tableName).append("\n")
-					.append("is").append(SQLUtils.SPACE).append(tableComment);
-
-		// System.out.println(fileTableComment);
+		if (tableComment != null && tableComment != "") {
+			fileTableComment.append("comment on table").append(SqlUtils.SPACE).append(tableName).append("\n")
+					.append("is").append(SqlUtils.SPACE).append(tableComment);
+		}
 		if (fileTableComment != null) {
 			BufferedWriter out = null;
 			try {
@@ -135,12 +132,12 @@ public class FileUtils {
 	public static void writeFileColumnsComments(File file, ArrayList<ColumnComments> columnComments) {
 		StringBuffer fileColumnsComments = new StringBuffer();
 		for (ColumnComments columnComment : columnComments) {
-			if (columnComment.getComments() != "" && columnComment.getComments() != null)
-				fileColumnsComments.append("comment on column ").append(columnComment.getTable_name()).append(".")
-						.append(columnComment.getColumn_name()).append("\n").append("is ")
+			if (columnComment.getComments() != "" && columnComment.getComments() != null) {
+				fileColumnsComments.append("comment on column ").append(columnComment.getTableName()).append(".")
+						.append(columnComment.getColumnName()).append("\n").append("is ")
 						.append(columnComment.getComments()).append(";").append("\n");
+			}
 		}
-		// System.out.println(fileColumnsComments);
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
@@ -171,51 +168,56 @@ public class FileUtils {
 		StringBuffer fileTableIndexsPK = new StringBuffer();
 		StringBuffer fileTableIndexsU = new StringBuffer();
 		for (TableIndex index : indexs) {
-			System.out.println(index.getIndex_name());
-			System.out.println(index.getIndex_name().endsWith("_PK"));
-			if (index.getIndex_name().endsWith("_PK")) {
-				if (fileTableIndexsPK.toString().startsWith("alter table"))
-					fileTableIndexsPK.append(SQLUtils.COMMA).append(index.getColumn_name());
-				else
-					fileTableIndexsPK.append("alter table").append(SQLUtils.SPACE).append(index.getTable_name())
-							.append("\n").append("add constraint").append(SQLUtils.SPACE).append(index.getIndex_name())
-							.append(SQLUtils.SPACE).append("PRIMARY KEY").append(SQLUtils.SPACE)
-							.append(SQLUtils.LEFTPARENTHESE).append(index.getColumn_name());
+			System.out.println(index.getIndexName());
+			System.out.println(index.getIndexName().endsWith("_PK"));
+			if (index.getIndexName().endsWith("_PK")) {
+				if (fileTableIndexsPK.toString().startsWith("alter table")) {
+					fileTableIndexsPK.append(SqlUtils.COMMA).append(index.getColumnName());
+				} else {
+					fileTableIndexsPK.append("alter table").append(SqlUtils.SPACE).append(index.getTableName())
+							.append("\n").append("add constraint").append(SqlUtils.SPACE).append(index.getIndexName())
+							.append(SqlUtils.SPACE).append("PRIMARY KEY").append(SqlUtils.SPACE)
+							.append(SqlUtils.LEFTPARENTHESE).append(index.getColumnName());
+				}
 			} else {
 				// ACP_ACP_REQUISITION_REFS_N1 ACP_ACP_REQUISITION_REFS CSH_TRANSACTION_LINE_ID
 				// ACP_ACP_REQUISITION_REFS_N2 ACP_ACP_REQUISITION_REFS ACP_REQUISITION_LINE_ID
 				// ACP_ACP_REQUISITION_REFS_U1 ACP_ACP_REQUISITION_REFS WRITE_OFF_ID
 				// ACP_ACP_REQUISITION_REFS_PK ACP_ACP_REQUISITION_REFS ACP_REQUISITION_REF_ID
 
-				if (index.getIndex_name() != null) {
-					//是否包含当前索引名称，包含就追加：",索引名"
-					if (fileTableIndexsU.toString().contains(index.getIndex_name())) {
-						fileTableIndexsU.append(SQLUtils.COMMA).append(index.getColumn_name());
-					}else {
-						//判读索引字符串长度，大于0默认已经写入一个索引。追加：");换行符"
-						if (fileTableIndexsU.length() > 0)
-							fileTableIndexsU.append(SQLUtils.RIGHTPARENTHESE).append(";").append("\n");
-						
-						//判读索引字符串长度，等于0默认第一次写入
-						if (fileTableIndexsU.length() == 0)
-							fileTableIndexsU.append("create unique index").append(SQLUtils.SPACE)
-									.append(index.getIndex_name()).append(SQLUtils.SPACE).append("on")
-									.append(SQLUtils.SPACE).append(index.getTable_name()).append(SQLUtils.SPACE)
-									.append(SQLUtils.LEFTPARENTHESE).append(index.getColumn_name());
-						else
-							//写入新的索引
-							fileTableIndexsU.append("create unique index").append(SQLUtils.SPACE).append(index.getIndex_name())
-								.append(SQLUtils.SPACE).append("on").append(SQLUtils.SPACE).append(index.getTable_name())
-								.append(SQLUtils.SPACE).append(SQLUtils.LEFTPARENTHESE).append(index.getColumn_name());
-					}	
+				if (index.getIndexName() != null) {
+					// 是否包含当前索引名称，包含就追加：",索引名"
+					if (fileTableIndexsU.toString().contains(index.getIndexName())) {
+						fileTableIndexsU.append(SqlUtils.COMMA).append(index.getColumnName());
+					} else {
+						// 判读索引字符串长度，大于0默认已经写入一个索引。追加：");换行符"
+						if (fileTableIndexsU.length() > 0) {
+							fileTableIndexsU.append(SqlUtils.RIGHTPARENTHESE).append(";").append("\n");
+						}
+						// 判读索引字符串长度，等于0默认第一次写入
+						if (fileTableIndexsU.length() == 0) {
+							fileTableIndexsU.append("create unique index").append(SqlUtils.SPACE)
+									.append(index.getIndexName()).append(SqlUtils.SPACE).append("on")
+									.append(SqlUtils.SPACE).append(index.getTableName()).append(SqlUtils.SPACE)
+									.append(SqlUtils.LEFTPARENTHESE).append(index.getColumnName());
+						} else {
+							// 写入新的索引
+							fileTableIndexsU.append("create unique index").append(SqlUtils.SPACE)
+									.append(index.getIndexName()).append(SqlUtils.SPACE).append("on")
+									.append(SqlUtils.SPACE).append(index.getTableName()).append(SqlUtils.SPACE)
+									.append(SqlUtils.LEFTPARENTHESE).append(index.getColumnName());
+						}
+					}
 				}
 			}
 		}
-		//写入结尾
-		if (fileTableIndexsPK.length() > 0)
-			fileTableIndexsPK.append(SQLUtils.RIGHTPARENTHESE).append(";").append("\n");
-		if (fileTableIndexsU.length() > 0)
-			fileTableIndexsU.append(SQLUtils.RIGHTPARENTHESE).append(";").append("\n");
+		// 写入结尾
+		if (fileTableIndexsPK.length() > 0) {
+			fileTableIndexsPK.append(SqlUtils.RIGHTPARENTHESE).append(";").append("\n");
+		}
+		if (fileTableIndexsU.length() > 0) {
+			fileTableIndexsU.append(SqlUtils.RIGHTPARENTHESE).append(";").append("\n");
+		}
 		fileTableIndexs.append(fileTableIndexsPK).append(fileTableIndexsU);
 		BufferedWriter out = null;
 		try {
@@ -244,7 +246,6 @@ public class FileUtils {
 	public static void writeFileFooter(File file) {
 		StringBuffer fileFooter = new StringBuffer();
 		fileFooter.append("\n").append("\n").append("spool off").append("\n");
-		// System.out.println(fileFooter);
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));

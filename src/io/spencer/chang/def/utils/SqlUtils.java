@@ -9,7 +9,7 @@ import java.util.HashMap;
  * @author Spencer
  *
  */
-public class SQLUtils {
+public class SqlUtils {
 	public final static String SELECT = "SELECT";
 	public final static String UPDATE = "UPDATE";
 	public final static String DELETE = "DELETE";
@@ -44,20 +44,21 @@ public class SQLUtils {
 	public static StringBuffer generateSql(String tableName, ArrayList<String> queryColumns,
 			HashMap<String, String> conditions) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(SQLUtils.SELECT).append(SQLUtils.SPACE);
-		if (queryColumns != null)
+		sql.append(SqlUtils.SELECT).append(SqlUtils.SPACE);
+		if (queryColumns != null) {
 			queryColumns.forEach((qn) -> {
-				sql.append(qn).append(SQLUtils.COMMA).append(SQLUtils.SPACE);
+				sql.append(qn).append(SqlUtils.COMMA).append(SqlUtils.SPACE);
 			});
+		}
 		// 先删除最后一个列的逗号
-		sql.delete(sql.length() - 2, sql.length() - 1).append(SQLUtils.FROM).append(SQLUtils.SPACE).append(tableName)
-				.append(SQLUtils.SPACE).append(SQLUtils.WHERE).append(SQLUtils.SPACE).append(SQLUtils.THREEONE)
-				.append(SQLUtils.SPACE);
+		sql.delete(sql.length() - 2, sql.length() - 1).append(SqlUtils.FROM).append(SqlUtils.SPACE).append(tableName)
+				.append(SqlUtils.SPACE).append(SqlUtils.WHERE).append(SqlUtils.SPACE).append(SqlUtils.THREEONE)
+				.append(SqlUtils.SPACE);
 		if (conditions != null) {
 			conditions.forEach((k, v) -> {
-				sql.append(SQLUtils.AND).append(SQLUtils.SPACE).append(k).append(SQLUtils.SPACE).append(SQLUtils.EQ)
-						.append(SQLUtils.SPACE).append(SQLUtils.ESCAPECHARACTER).append(v)
-						.append(SQLUtils.ESCAPECHARACTER).append(SQLUtils.SPACE);
+				sql.append(SqlUtils.AND).append(SqlUtils.SPACE).append(k).append(SqlUtils.SPACE).append(SqlUtils.EQ)
+						.append(SqlUtils.SPACE).append(SqlUtils.ESCAPECHARACTER).append(v)
+						.append(SqlUtils.ESCAPECHARACTER).append(SqlUtils.SPACE);
 			});
 		}
 		return sql;
@@ -66,27 +67,28 @@ public class SQLUtils {
 	public static StringBuffer generateSql(String tableName, HashMap<String, String> functionQueryColumns,
 			ArrayList<String> queryColumns, HashMap<String, String> conditions) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(SQLUtils.SELECT).append(SQLUtils.SPACE);
+		sql.append(SqlUtils.SELECT).append(SqlUtils.SPACE);
 
-		if (functionQueryColumns != null)
+		if (functionQueryColumns != null) {
 			functionQueryColumns.forEach((k, v) -> {
-				sql.append(k).append(SQLUtils.LEFTPARENTHESE).append(v).append(SQLUtils.RIGHTPARENTHESE)
-						.append(SQLUtils.COMMA).append(SQLUtils.SPACE);
+				sql.append(k).append(SqlUtils.LEFTPARENTHESE).append(v).append(SqlUtils.RIGHTPARENTHESE)
+						.append(SqlUtils.COMMA).append(SqlUtils.SPACE);
 			});
-
-		if (queryColumns != null)
+		}
+		if (queryColumns != null) {
 			queryColumns.forEach((qn) -> {
-				sql.append(qn).append(SQLUtils.COMMA).append(SQLUtils.SPACE);
+				sql.append(qn).append(SqlUtils.COMMA).append(SqlUtils.SPACE);
 			});
+		}
 		// 先删除最后一个列的逗号
-		sql.delete(sql.length() - 2, sql.length() - 1).append(SQLUtils.FROM).append(SQLUtils.SPACE).append(tableName)
-				.append(SQLUtils.SPACE).append(SQLUtils.WHERE).append(SQLUtils.SPACE).append(SQLUtils.THREEONE)
-				.append(SQLUtils.SPACE);
+		sql.delete(sql.length() - 2, sql.length() - 1).append(SqlUtils.FROM).append(SqlUtils.SPACE).append(tableName)
+				.append(SqlUtils.SPACE).append(SqlUtils.WHERE).append(SqlUtils.SPACE).append(SqlUtils.THREEONE)
+				.append(SqlUtils.SPACE);
 		if (conditions != null) {
 			conditions.forEach((k, v) -> {
-				sql.append(SQLUtils.AND).append(SQLUtils.SPACE).append(k).append(SQLUtils.SPACE).append(SQLUtils.EQ)
-						.append(SQLUtils.SPACE).append(SQLUtils.ESCAPECHARACTER).append(v)
-						.append(SQLUtils.ESCAPECHARACTER).append(SQLUtils.SPACE);
+				sql.append(SqlUtils.AND).append(SqlUtils.SPACE).append(k).append(SqlUtils.SPACE).append(SqlUtils.EQ)
+						.append(SqlUtils.SPACE).append(SqlUtils.ESCAPECHARACTER).append(v)
+						.append(SqlUtils.ESCAPECHARACTER).append(SqlUtils.SPACE);
 			});
 		}
 		return sql;
