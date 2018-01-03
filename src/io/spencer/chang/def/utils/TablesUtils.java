@@ -27,7 +27,6 @@ public class TablesUtils {
 		ArrayList<String> tableNames = new ArrayList<String>();
 		// 组建sql
 		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
-		//System.out.println(sql);
 		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
@@ -51,7 +50,6 @@ public class TablesUtils {
 		HashMap<String, String> comments = new HashMap<String, String>(16);
 		// 组建sql
 		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
-		//System.out.println(sql);
 		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();

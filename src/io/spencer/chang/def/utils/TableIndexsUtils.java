@@ -27,7 +27,6 @@ public class TableIndexsUtils {
 		ArrayList<TableIndex> indexs = new ArrayList<TableIndex>();
 		// 组建sql
 		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
-		//System.out.println(sql);
 		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();

@@ -33,7 +33,6 @@ public class TablesColumnsUtils {
 		ArrayList<Column> columns = new ArrayList<Column>();
 		// 组建sql
 		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
-		//System.out.println(sql);
 		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
@@ -57,7 +56,6 @@ public class TablesColumnsUtils {
 		ArrayList<ColumnComments> comments = new ArrayList<ColumnComments>();
 		// 组建sql
 		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
-		//System.out.println(sql);
 		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();

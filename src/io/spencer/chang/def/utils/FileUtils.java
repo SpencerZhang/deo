@@ -33,7 +33,6 @@ public class FileUtils {
 				.append("\n").append("prompt ================================").append("\n").append("prompt")
 				.append("\n").append("\n").append("create table ").append(tableName).append("\n")
 				.append(SqlUtils.LEFTPARENTHESE).append("\n");
-		// System.out.println(fileHeader);
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new FileWriter(file));
@@ -73,7 +72,6 @@ public class FileUtils {
 			fileColumns.append(SqlUtils.COMMA).append("\n");
 		}
 		fileColumns.append(SqlUtils.RIGHTPARENTHESE).append(";").append("\n");
-		// System.out.println(fileColumns);
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
@@ -105,7 +103,6 @@ public class FileUtils {
 			fileTableComment.append("comment on table").append(SqlUtils.SPACE).append(tableName).append("\n")
 					.append("is").append(SqlUtils.SPACE).append(tableComment);
 		}
-		// System.out.println(fileTableComment);
 		if (fileTableComment != null) {
 			BufferedWriter out = null;
 			try {
@@ -141,7 +138,6 @@ public class FileUtils {
 						.append(columnComment.getComments()).append(";").append("\n");
 			}
 		}
-		// System.out.println(fileColumnsComments);
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
@@ -250,7 +246,6 @@ public class FileUtils {
 	public static void writeFileFooter(File file) {
 		StringBuffer fileFooter = new StringBuffer();
 		fileFooter.append("\n").append("\n").append("spool off").append("\n");
-		// System.out.println(fileFooter);
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));

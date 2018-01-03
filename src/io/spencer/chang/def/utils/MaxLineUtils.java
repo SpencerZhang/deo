@@ -25,7 +25,6 @@ public class MaxLineUtils {
 		functionQueryColumns.put("MAX", maxName);
 		StringBuffer sql = SqlUtils.generateSql(tableName, functionQueryColumns,
 				null, conditions);
-		 //System.out.println(sql);
 		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();

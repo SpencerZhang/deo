@@ -32,7 +32,6 @@ public class LineContentUtils {
 		queryColumns.add(queryColumnName);
 		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumns,
 				conditions);
-		//System.out.println(sql);
 		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
