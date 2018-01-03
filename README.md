@@ -1,14 +1,19 @@
 # DEO
  Database Export Ojects 4 Oracle
 
-## 运行程序前请配置数据源
- **jdbc.properties**
-## 需JDK8
+## 前提条件
+
+	```
+	JDK8
+	jdbc.properties
+	```
  
-### 导出package请修改PackagesExport类main方法数据库用户变量
+## 导出执行类：Export.java
 
-## 运行请直接执行PackagesExport和TablesExport
-
+	```
+	导出package，先维护用户名String owner = "";
+	```
+	
 ## 开源协议 / License
 
 [MIT](http://opensource.org/licenses/MIT)
