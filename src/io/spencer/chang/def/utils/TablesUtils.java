@@ -26,9 +26,9 @@ public class TablesUtils {
 			HashMap<String, String> conditions) throws Exception {
 		ArrayList<String> tableNames = new ArrayList<String>();
 		// 组建sql
-		StringBuffer sql = SQLUtils.generateSql(tableName, queryColumnNames, conditions);
+		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
 		//System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -50,16 +50,16 @@ public class TablesUtils {
 			HashMap<String, String> conditions) throws Exception {
 		HashMap<String, String> comments = new HashMap<String, String>(16);
 		// 组建sql
-		StringBuffer sql = SQLUtils.generateSql(tableName, queryColumnNames, conditions);
+		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
 		//System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			comments.put("TABLE_NAME", rs.getString(1));
 			comments.put("COMMENTS", rs.getString(2));
 		}
-		DBUtils.close(conn, ps, rs);
+		DbUtils.close(conn, ps, rs);
 		return comments;
 	}
 

@@ -32,9 +32,9 @@ public class TablesColumnsUtils {
 			HashMap<String, String> conditions) throws Exception {
 		ArrayList<Column> columns = new ArrayList<Column>();
 		// 组建sql
-		StringBuffer sql = SQLUtils.generateSql(tableName, queryColumnNames, conditions);
+		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
 		//System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -48,7 +48,7 @@ public class TablesColumnsUtils {
 			column.setData_default(rs.getString(7));
 			columns.add(column);
 		}
-		DBUtils.close(conn, ps, rs);
+		DbUtils.close(conn, ps, rs);
 		return columns;
 	}
 
@@ -56,9 +56,9 @@ public class TablesColumnsUtils {
 			HashMap<String, String> conditions) throws Exception {
 		ArrayList<ColumnComments> comments = new ArrayList<ColumnComments>();
 		// 组建sql
-		StringBuffer sql = SQLUtils.generateSql(tableName, queryColumnNames, conditions);
+		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
 		//System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -68,7 +68,7 @@ public class TablesColumnsUtils {
 			comment.setComments(rs.getString(3));
 			comments.add(comment);
 		}
-		DBUtils.close(conn, ps, rs);
+		DbUtils.close(conn, ps, rs);
 		return comments;
 	}
 }

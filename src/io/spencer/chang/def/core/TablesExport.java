@@ -20,19 +20,33 @@ import io.spencer.chang.def.utils.TablesUtils;
  */
 public class TablesExport {
 
-	// 数据源表
+	/**
+	 * 数据源表
+	 */
 	private final static String USER_TABLES = "USER_TABLES";
-	//列
+	/**
+	 * 列
+	 */
 	private final static String USER_TAB_COLUMNS = "USER_TAB_COLUMNS";
-	//表描述
+	/**
+	 * 表描述
+	 */
 	private final static String USER_TAB_COMMENTS = "USER_TAB_COMMENTS";
-	//列描述
+	/**
+	 * 列描述
+	 */
 	private final static String USER_COL_COMMENTS = "USER_COL_COMMENTS";
-	//索引
+	/**
+	 * 索引
+	 */
 	private final static String USER_IND_COLUMNS = "USER_IND_COLUMNS";
-	// 文件默认保存在当然操作系统用户目录下
+	/**
+	 * 文件默认保存在当然操作系统用户目录下
+	 */
 	private final static String FILEPATH = System.getProperty("user.home");
-	// 文件类型默认未pck
+	/**
+	 * 文件类型默认pck
+	 */
 	private final static String FILETYPE = ".sql";
 
 	/**

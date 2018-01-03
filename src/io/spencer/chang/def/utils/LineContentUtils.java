@@ -30,16 +30,16 @@ public class LineContentUtils {
 		ArrayList<String> contents = new ArrayList<String>();
 		ArrayList<String> queryColumns = new ArrayList<String>();
 		queryColumns.add(queryColumnName);
-		StringBuffer sql = SQLUtils.generateSql(tableName, queryColumns,
+		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumns,
 				conditions);
 		//System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			contents.add(rs.getString(1));
 		}
-		DBUtils.close(conn, ps, rs);
+		DbUtils.close(conn, ps, rs);
 		return contents;
 	}
 

@@ -16,14 +16,25 @@ import io.spencer.chang.def.utils.PackagesUtils;
  *
  */
 public class PackagesExport {
-	// 数据源表
+	/**
+	 * 数据源表
+	 */
 	private final static String SOURCE_TABLE = "ALL_SOURCE";
-	// 导出类型
+	/**
+	 * 导出类型
+	 */
 	private final static String TYPE_PACKAGE_HEADER = "PACKAGE";
+	/**
+	 * 导出类型
+	 */
 	private final static String TYPE_PACKAGE_BODY = "PACKAGE BODY";
-	// 文件默认保存在当然操作系统用户目录下
+	/**
+	 * 文件默认保存在当然操作系统用户目录下
+	 */
 	private final static String FILEPATH = System.getProperty("user.home");
-	// 文件类型默认未pck
+	/**
+	 * 文件类型默认pck
+	 */
 	private final static String FILETYPE = ".pck";
 
 	/**
@@ -45,7 +56,7 @@ public class PackagesExport {
 	public static void export(ArrayList<String> packageNames, String type, String owner, String tableName,
 			String filePath, String fileType) {
 		//final String QUERY_MAX_NAME = "LINE";
-		final String QUERY_CONTENT_NAME = "TEXT";
+		final String queryContentName = "TEXT";
 		try {
 			packageNames.forEach((s) -> {
 				HashMap<String, String> maxLineConditions = new HashMap<String, String>(16);
@@ -60,15 +71,15 @@ public class PackagesExport {
 					contentConditions.put("TYPE", type);
 					contentConditions.put("OWNER", owner);
 					contentConditions.put("NAME", s);
-					ArrayList<String> contents = LineContentUtils.getContents(tableName, QUERY_CONTENT_NAME,
+					ArrayList<String> contents = LineContentUtils.getContents(tableName, queryContentName,
 							contentConditions);
 					contents.forEach((c) -> {
 						String content = null;
-						if (type == TYPE_PACKAGE_HEADER)
+						if (type == TYPE_PACKAGE_HEADER) {
 							content = c.replace("PACKAGE", "CREATE OR REPLACE PACKAGE");
-						else if (type == TYPE_PACKAGE_BODY)
+						}else if (type == TYPE_PACKAGE_BODY) {
 							content = c.replace("PACKAGE BODY", "CREATE OR REPLACE PACKAGE BODY");
-
+						}
 						if (!file.exists()) {
 							try {
 								file.createNewFile();
@@ -90,7 +101,7 @@ public class PackagesExport {
 	}
 
 	public static void main(String[] args) {
-		final String QUERY_NAME = "NAME";
+		final String queryName = "NAME";
 		HashMap<String, String> conditions = new HashMap<String, String>(16);
 		//数据库用户名
 		conditions.put("OWNER", "数据库用户名");
@@ -98,7 +109,7 @@ public class PackagesExport {
 		ArrayList<String> packageNames;
 		try {
 			long startTimePackageNames = System.currentTimeMillis();
-			packageNames = PackagesUtils.getPackageNames(SOURCE_TABLE, QUERY_NAME, conditions);
+			packageNames = PackagesUtils.getPackageNames(SOURCE_TABLE, queryName, conditions);
 			long endTimePackageNames = System.currentTimeMillis();
 			float secondsPackageNames = (endTimePackageNames - startTimePackageNames) / 1000F;
 			System.out.println("查询PackageNames耗时：" + Float.toString(secondsPackageNames) + " second.");

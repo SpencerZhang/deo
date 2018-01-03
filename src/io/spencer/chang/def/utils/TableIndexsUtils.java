@@ -26,9 +26,9 @@ public class TableIndexsUtils {
 			HashMap<String, String> conditions) throws Exception {
 		ArrayList<TableIndex> indexs = new ArrayList<TableIndex>();
 		// 组建sql
-		StringBuffer sql = SQLUtils.generateSql(tableName, queryColumnNames, conditions);
+		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
 		//System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -38,7 +38,7 @@ public class TableIndexsUtils {
 			index.setIndex_name(rs.getString(3));
 			indexs.add(index);
 		}
-		DBUtils.close(conn, ps, rs);
+		DbUtils.close(conn, ps, rs);
 		return indexs;
 	}
 }
