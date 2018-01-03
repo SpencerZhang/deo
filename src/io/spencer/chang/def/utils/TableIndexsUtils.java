@@ -33,9 +33,9 @@ public class TableIndexsUtils {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			TableIndex index = new TableIndex();
-			index.setTable_name(rs.getString(1));
-			index.setColumn_name(rs.getString(2));
-			index.setIndex_name(rs.getString(3));
+			index.setTableName(rs.getString(1));
+			index.setColumnName(rs.getString(2));
+			index.setIndexName(rs.getString(3));
 			indexs.add(index);
 		}
 		DbUtils.close(conn, ps, rs);

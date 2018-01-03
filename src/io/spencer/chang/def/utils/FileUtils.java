@@ -61,13 +61,13 @@ public class FileUtils {
 	public static void writeFileColumns(File file, ArrayList<Column> columns) {
 		StringBuffer fileColumns = new StringBuffer();
 		for (Column column : columns) {
-			fileColumns.append(column.getColumn_name()).append(SqlUtils.SPACE).append(column.getData_type())
+			fileColumns.append(column.getColumnName()).append(SqlUtils.SPACE).append(column.getDataType())
 					.append(SqlUtils.SPACE);
-			if (column.getData_type().matches("VARCHAR2")) {
-				fileColumns.append(SqlUtils.LEFTPARENTHESE).append(column.getData_length())
+			if (column.getDataType().matches("VARCHAR2")) {
+				fileColumns.append(SqlUtils.LEFTPARENTHESE).append(column.getDataLength())
 						.append(SqlUtils.RIGHTPARENTHESE).append(SqlUtils.SPACE);
 			}
-			if (column.getNullable().matches("N")) {
+			if (column.getNullAble().matches("N")) {
 				fileColumns.append(SqlUtils.NOTNULL);
 			}
 			fileColumns.append(SqlUtils.COMMA).append("\n");
@@ -136,8 +136,8 @@ public class FileUtils {
 		StringBuffer fileColumnsComments = new StringBuffer();
 		for (ColumnComments columnComment : columnComments) {
 			if (columnComment.getComments() != "" && columnComment.getComments() != null) {
-				fileColumnsComments.append("comment on column ").append(columnComment.getTable_name()).append(".")
-						.append(columnComment.getColumn_name()).append("\n").append("is ")
+				fileColumnsComments.append("comment on column ").append(columnComment.getTableName()).append(".")
+						.append(columnComment.getColumnName()).append("\n").append("is ")
 						.append(columnComment.getComments()).append(";").append("\n");
 			}
 		}
@@ -172,16 +172,16 @@ public class FileUtils {
 		StringBuffer fileTableIndexsPK = new StringBuffer();
 		StringBuffer fileTableIndexsU = new StringBuffer();
 		for (TableIndex index : indexs) {
-			System.out.println(index.getIndex_name());
-			System.out.println(index.getIndex_name().endsWith("_PK"));
-			if (index.getIndex_name().endsWith("_PK")) {
+			System.out.println(index.getIndexName());
+			System.out.println(index.getIndexName().endsWith("_PK"));
+			if (index.getIndexName().endsWith("_PK")) {
 				if (fileTableIndexsPK.toString().startsWith("alter table")) {
-					fileTableIndexsPK.append(SqlUtils.COMMA).append(index.getColumn_name());
+					fileTableIndexsPK.append(SqlUtils.COMMA).append(index.getColumnName());
 				} else {
-					fileTableIndexsPK.append("alter table").append(SqlUtils.SPACE).append(index.getTable_name())
-							.append("\n").append("add constraint").append(SqlUtils.SPACE).append(index.getIndex_name())
+					fileTableIndexsPK.append("alter table").append(SqlUtils.SPACE).append(index.getTableName())
+							.append("\n").append("add constraint").append(SqlUtils.SPACE).append(index.getIndexName())
 							.append(SqlUtils.SPACE).append("PRIMARY KEY").append(SqlUtils.SPACE)
-							.append(SqlUtils.LEFTPARENTHESE).append(index.getColumn_name());
+							.append(SqlUtils.LEFTPARENTHESE).append(index.getColumnName());
 				}
 			} else {
 				// ACP_ACP_REQUISITION_REFS_N1 ACP_ACP_REQUISITION_REFS CSH_TRANSACTION_LINE_ID
@@ -189,10 +189,10 @@ public class FileUtils {
 				// ACP_ACP_REQUISITION_REFS_U1 ACP_ACP_REQUISITION_REFS WRITE_OFF_ID
 				// ACP_ACP_REQUISITION_REFS_PK ACP_ACP_REQUISITION_REFS ACP_REQUISITION_REF_ID
 
-				if (index.getIndex_name() != null) {
+				if (index.getIndexName() != null) {
 					// 是否包含当前索引名称，包含就追加：",索引名"
-					if (fileTableIndexsU.toString().contains(index.getIndex_name())) {
-						fileTableIndexsU.append(SqlUtils.COMMA).append(index.getColumn_name());
+					if (fileTableIndexsU.toString().contains(index.getIndexName())) {
+						fileTableIndexsU.append(SqlUtils.COMMA).append(index.getColumnName());
 					} else {
 						// 判读索引字符串长度，大于0默认已经写入一个索引。追加：");换行符"
 						if (fileTableIndexsU.length() > 0) {
@@ -201,15 +201,15 @@ public class FileUtils {
 						// 判读索引字符串长度，等于0默认第一次写入
 						if (fileTableIndexsU.length() == 0) {
 							fileTableIndexsU.append("create unique index").append(SqlUtils.SPACE)
-									.append(index.getIndex_name()).append(SqlUtils.SPACE).append("on")
-									.append(SqlUtils.SPACE).append(index.getTable_name()).append(SqlUtils.SPACE)
-									.append(SqlUtils.LEFTPARENTHESE).append(index.getColumn_name());
+									.append(index.getIndexName()).append(SqlUtils.SPACE).append("on")
+									.append(SqlUtils.SPACE).append(index.getTableName()).append(SqlUtils.SPACE)
+									.append(SqlUtils.LEFTPARENTHESE).append(index.getColumnName());
 						} else {
 							// 写入新的索引
 							fileTableIndexsU.append("create unique index").append(SqlUtils.SPACE)
-									.append(index.getIndex_name()).append(SqlUtils.SPACE).append("on")
-									.append(SqlUtils.SPACE).append(index.getTable_name()).append(SqlUtils.SPACE)
-									.append(SqlUtils.LEFTPARENTHESE).append(index.getColumn_name());
+									.append(index.getIndexName()).append(SqlUtils.SPACE).append("on")
+									.append(SqlUtils.SPACE).append(index.getTableName()).append(SqlUtils.SPACE)
+									.append(SqlUtils.LEFTPARENTHESE).append(index.getColumnName());
 						}
 					}
 				}

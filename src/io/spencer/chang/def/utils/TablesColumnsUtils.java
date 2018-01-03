@@ -39,13 +39,13 @@ public class TablesColumnsUtils {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			Column column = new Column();
-			column.setTable_name(rs.getString(1));
-			column.setColumn_name(rs.getString(2));
-			column.setData_type(rs.getString(3));
-			column.setData_length(rs.getInt(4));
-			column.setNullable(rs.getString(5));
-			column.setColumn_id(rs.getInt(6));
-			column.setData_default(rs.getString(7));
+			column.setTableName(rs.getString(1));
+			column.setColumnName(rs.getString(2));
+			column.setDataType(rs.getString(3));
+			column.setDataLength(rs.getInt(4));
+			column.setNullAble(rs.getString(5));
+			column.setColumnId(rs.getInt(6));
+			column.setDataDefault(rs.getString(7));
 			columns.add(column);
 		}
 		DbUtils.close(conn, ps, rs);
@@ -63,8 +63,8 @@ public class TablesColumnsUtils {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			ColumnComments comment = new ColumnComments();
-			comment.setTable_name(rs.getString(1));
-			comment.setColumn_name(rs.getString(2));
+			comment.setTableName(rs.getString(1));
+			comment.setColumnName(rs.getString(2));
 			comment.setComments(rs.getString(3));
 			comments.add(comment);
 		}
