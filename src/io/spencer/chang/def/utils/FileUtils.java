@@ -168,8 +168,6 @@ public class FileUtils {
 		StringBuffer fileTableIndexsPK = new StringBuffer();
 		StringBuffer fileTableIndexsU = new StringBuffer();
 		for (TableIndex index : indexs) {
-			System.out.println(index.getIndexName());
-			System.out.println(index.getIndexName().endsWith("_PK"));
 			if (index.getIndexName().endsWith("_PK")) {
 				if (fileTableIndexsPK.toString().startsWith("alter table")) {
 					fileTableIndexsPK.append(SqlUtils.COMMA).append(index.getColumnName());
@@ -180,11 +178,6 @@ public class FileUtils {
 							.append(SqlUtils.LEFTPARENTHESE).append(index.getColumnName());
 				}
 			} else {
-				// ACP_ACP_REQUISITION_REFS_N1 ACP_ACP_REQUISITION_REFS CSH_TRANSACTION_LINE_ID
-				// ACP_ACP_REQUISITION_REFS_N2 ACP_ACP_REQUISITION_REFS ACP_REQUISITION_LINE_ID
-				// ACP_ACP_REQUISITION_REFS_U1 ACP_ACP_REQUISITION_REFS WRITE_OFF_ID
-				// ACP_ACP_REQUISITION_REFS_PK ACP_ACP_REQUISITION_REFS ACP_REQUISITION_REF_ID
-
 				if (index.getIndexName() != null) {
 					// 是否包含当前索引名称，包含就追加：",索引名"
 					if (fileTableIndexsU.toString().contains(index.getIndexName())) {
