@@ -1,126 +1,175 @@
 package io.spencer.chang.def.pojo;
 
 import java.io.Serializable;
-
-public class Column implements Serializable{
+/**
+ * 列
+ * @author Spencer
+ *
+ */
+public class Column implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2600772517308196562L;
-	//表名
-	public String table_name;
-	// 列名
-	public String column_name;
-	// 数据类型
-	public String data_type;
-	// 长度
-	public int data_length;
-	// 是否可为null
-	public String nullable;
-	// 排序
-	public int column_id;
-	// 默认值
-	public String data_default;
-	
-	public String getTable_name() {
-		return table_name;
+	/**
+	 * 表名
+	 */
+	public String tableName;
+	/**
+	 * 列名
+	 */
+	public String columnName;
+	/**
+	 * 数据类型
+	 */
+	public String dataType;
+	/**
+	 * 长度
+	 */
+	public int dataLength;
+	/**
+	 * 是否可为null
+	 */
+	public String nullAble;
+	/**
+	 * 排序
+	 */
+	public int columnId;
+	/**
+	 * 默认值
+	 */
+	public String dataDefault;
+
+	public String getTableName() {
+		return tableName;
 	}
-	public void setTable_name(String table_name) {
-		this.table_name = table_name;
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
-	public String getColumn_name() {
-		return column_name;
+
+	public String getColumnName() {
+		return columnName;
 	}
-	public void setColumn_name(String column_name) {
-		this.column_name = column_name;
+
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
 	}
-	public String getData_type() {
-		return data_type;
+
+	public String getDataType() {
+		return dataType;
 	}
-	public void setData_type(String data_type) {
-		this.data_type = data_type;
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
 	}
-	public int getData_length() {
-		return data_length;
+
+	public int getDataLength() {
+		return dataLength;
 	}
-	public void setData_length(int data_length) {
-		this.data_length = data_length;
+
+	public void setDataLength(int dataLength) {
+		this.dataLength = dataLength;
 	}
-	public String getNullable() {
-		return nullable;
+
+	public String getNullAble() {
+		return nullAble;
 	}
-	public void setNullable(String nullable) {
-		this.nullable = nullable;
+
+	public void setNullAble(String nullAble) {
+		this.nullAble = nullAble;
 	}
-	public int getColumn_id() {
-		return column_id;
+
+	public int getColumnId() {
+		return columnId;
 	}
-	public void setColumn_id(int column_id) {
-		this.column_id = column_id;
+
+	public void setColumnId(int columnId) {
+		this.columnId = columnId;
 	}
-	public String getData_default() {
-		return data_default;
+
+	public String getDataDefault() {
+		return dataDefault;
 	}
-	public void setData_default(String data_default) {
-		this.data_default = data_default;
+
+	public void setDataDefault(String dataDefault) {
+		this.dataDefault = dataDefault;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + column_id;
-		result = prime * result + ((column_name == null) ? 0 : column_name.hashCode());
-		result = prime * result + ((data_default == null) ? 0 : data_default.hashCode());
-		result = prime * result + data_length;
-		result = prime * result + ((data_type == null) ? 0 : data_type.hashCode());
-		result = prime * result + ((nullable == null) ? 0 : nullable.hashCode());
-		result = prime * result + ((table_name == null) ? 0 : table_name.hashCode());
+		result = prime * result + columnId;
+		result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
+		result = prime * result + ((dataDefault == null) ? 0 : dataDefault.hashCode());
+		result = prime * result + dataLength;
+		result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
+		result = prime * result + ((nullAble == null) ? 0 : nullAble.hashCode());
+		result = prime * result + ((tableName == null) ? 0 : tableName.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Column other = (Column) obj;
-		if (column_id != other.column_id)
+		if (columnId != other.columnId) {
 			return false;
-		if (column_name == null) {
-			if (other.column_name != null)
+		}
+		if (columnName == null) {
+			if (other.columnName != null) {
 				return false;
-		} else if (!column_name.equals(other.column_name))
+			}
+		} else if (!columnName.equals(other.columnName)) {
 			return false;
-		if (data_default == null) {
-			if (other.data_default != null)
+		}
+		if (dataDefault == null) {
+			if (other.dataDefault != null) {
 				return false;
-		} else if (!data_default.equals(other.data_default))
+			}
+		} else if (!dataDefault.equals(other.dataDefault)) {
 			return false;
-		if (data_length != other.data_length)
+		}
+		if (dataLength != other.dataLength) {
 			return false;
-		if (data_type == null) {
-			if (other.data_type != null)
+		}
+		if (dataType == null) {
+			if (other.dataType != null) {
 				return false;
-		} else if (!data_type.equals(other.data_type))
+			}
+		} else if (!dataType.equals(other.dataType)) {
 			return false;
-		if (nullable == null) {
-			if (other.nullable != null)
+		}
+		if (nullAble == null) {
+			if (other.nullAble != null) {
 				return false;
-		} else if (!nullable.equals(other.nullable))
+			}
+		} else if (!nullAble.equals(other.nullAble)) {
 			return false;
-		if (table_name == null) {
-			if (other.table_name != null)
+		}
+		if (tableName == null) {
+			if (other.tableName != null) {
 				return false;
-		} else if (!table_name.equals(other.table_name))
+			}
+		} else if (!tableName.equals(other.tableName)) {
 			return false;
+		}
 		return true;
 	}
+
 	@Override
 	public String toString() {
-		return "Column [table_name=" + table_name + ", column_name=" + column_name + ", data_type=" + data_type
-				+ ", data_length=" + data_length + ", nullable=" + nullable + ", column_id=" + column_id
-				+ ", data_default=" + data_default + "]";
+		return "Column [tableName=" + tableName + ", columnName=" + columnName + ", dataType=" + dataType
+				+ ", dataLength=" + dataLength + ", nullAble=" + nullAble + ", columnId=" + columnId
+				+ ", dataDefault=" + dataDefault + "]";
 	}
 }

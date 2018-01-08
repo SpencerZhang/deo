@@ -26,19 +26,18 @@ public class TableIndexsUtils {
 			HashMap<String, String> conditions) throws Exception {
 		ArrayList<TableIndex> indexs = new ArrayList<TableIndex>();
 		// 组建sql
-		StringBuffer sql = SQLUtils.generateSql(tableName, queryColumnNames, conditions);
-		//System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		StringBuffer sql = SqlUtils.generateSql(tableName, queryColumnNames, conditions);
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			TableIndex index = new TableIndex();
-			index.setTable_name(rs.getString(1));
-			index.setColumn_name(rs.getString(2));
-			index.setIndex_name(rs.getString(3));
+			index.setTableName(rs.getString(1));
+			index.setColumnName(rs.getString(2));
+			index.setIndexName(rs.getString(3));
 			indexs.add(index);
 		}
-		DBUtils.close(conn, ps, rs);
+		DbUtils.close(conn, ps, rs);
 		return indexs;
 	}
 }

@@ -23,16 +23,15 @@ public class MaxLineUtils {
 		int lines = 0;
 		HashMap<String, String> functionQueryColumns = new HashMap<String, String>(16);
 		functionQueryColumns.put("MAX", maxName);
-		StringBuffer sql = SQLUtils.generateSql(tableName, functionQueryColumns,
+		StringBuffer sql = SqlUtils.generateSql(tableName, functionQueryColumns,
 				null, conditions);
-		 //System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			lines = rs.getInt(1);
 		}
-		DBUtils.close(conn, ps, rs);
+		DbUtils.close(conn, ps, rs);
 		return lines;
 	}
 }

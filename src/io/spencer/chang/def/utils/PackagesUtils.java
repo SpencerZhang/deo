@@ -24,16 +24,15 @@ public class PackagesUtils {
 		ArrayList<String> packageNames = new ArrayList<String>();
 		HashMap<String, String> functionQueryColumns = new HashMap<String, String>(16);
 		functionQueryColumns.put("DISTINCT", queryColumnName);
-		StringBuffer sql = SQLUtils.generateSql(tableName, functionQueryColumns,
+		StringBuffer sql = SqlUtils.generateSql(tableName, functionQueryColumns,
 				null, conditions);
-		// System.out.println(sql);
-		Connection conn = DBUtils.getConnection();
+		Connection conn = DbUtils.getConnection();
 		PreparedStatement ps = conn.prepareStatement(sql.toString());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			packageNames.add(rs.getString(1));
 		}
-		DBUtils.close(conn, ps, rs);
+		DbUtils.close(conn, ps, rs);
 		return packageNames;
 	}
 }

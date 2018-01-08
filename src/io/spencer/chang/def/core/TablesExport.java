@@ -20,19 +20,33 @@ import io.spencer.chang.def.utils.TablesUtils;
  */
 public class TablesExport {
 
-	// 数据源表
+	/**
+	 * 数据源表
+	 */
 	private final static String USER_TABLES = "USER_TABLES";
-	//列
+	/**
+	 * 列
+	 */
 	private final static String USER_TAB_COLUMNS = "USER_TAB_COLUMNS";
-	//表描述
+	/**
+	 * 表描述
+	 */
 	private final static String USER_TAB_COMMENTS = "USER_TAB_COMMENTS";
-	//列描述
+	/**
+	 * 列描述
+	 */
 	private final static String USER_COL_COMMENTS = "USER_COL_COMMENTS";
-	//索引
+	/**
+	 * 索引
+	 */
 	private final static String USER_IND_COLUMNS = "USER_IND_COLUMNS";
-	// 文件默认保存在当然操作系统用户目录下
+	/**
+	 * 文件默认保存在当然操作系统用户目录下
+	 */
 	private final static String FILEPATH = System.getProperty("user.home");
-	// 文件类型默认未pck
+	/**
+	 * 文件类型默认pck
+	 */
 	private final static String FILETYPE = ".sql";
 
 	/**
@@ -46,7 +60,7 @@ public class TablesExport {
 	 * @param filePath
 	 * @param fileType
 	 */
-	public static void export(String tableName, String tableComment, ArrayList<String> queryColumnNames,
+	private static void export(String tableName, String tableComment, ArrayList<String> queryColumnNames,
 			HashMap<String, String> conditions, String filePath, String fileType) {
 		String dataTableName = conditions.get("TABLE_NAME");
 		String fileFullPath = filePath + "/" + dataTableName + fileType;
@@ -80,58 +94,51 @@ public class TablesExport {
 					conditions);
 			// 写入索引
 			FileUtils.writeFileTableIndexs(file, indexs);
+			//写入脚本底部内容
+			FileUtils.writeFileFooter(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
+	public void export() {
 		// 获取表名
 		ArrayList<String> queryColumnNames = new ArrayList<String>();
 		queryColumnNames.add("TABLE_NAME");
 		HashMap<String, String> conditions = new HashMap<String, String>(16);
 		conditions.put("instr(TABLE_NAME,'$')", "0");
 		conditions.put("STATUS", "VALID");
-		long startTimeTableNames = System.currentTimeMillis();
-		ArrayList<String> tableNames = TablesUtils.getTableNames(USER_TABLES, queryColumnNames, conditions);
-		long endTimeTableNames = System.currentTimeMillis();
-		float secondsTableNames = (endTimeTableNames - startTimeTableNames) / 1000F;
-		System.out.println("查询TableNames耗时：" + Float.toString(secondsTableNames) + " second.");
-
-		// 表描述
-		ArrayList<String> queryColumnNames2 = new ArrayList<String>();
-		queryColumnNames2.add("TABLE_NAME");
-		queryColumnNames2.add("COMMENTS");
-		HashMap<String, String> conditions2 = new HashMap<String, String>(16);
-		conditions2.put("instr(TABLE_NAME,'$')", "0");
-		conditions2.put("TABLE_TYPE", "TABLE");
-		long startTimeTableComments = System.currentTimeMillis();
-		HashMap<String, String> tableComments = TablesUtils.getTableComments(USER_TAB_COMMENTS, queryColumnNames2,
-				conditions2);
-		long endTimeTableComments = System.currentTimeMillis();
-		float secondsTableComments = (endTimeTableComments - startTimeTableComments) / 1000F;
-		System.out.println("查询TableNames耗时：" + Float.toString(secondsTableComments) + " second.");
-		
-		// 创建表文件
-		ArrayList<String> queryColumnNames1 = new ArrayList<String>();
-		queryColumnNames1.add("TABLE_NAME");
-		queryColumnNames1.add("COLUMN_NAME");
-		queryColumnNames1.add("DATA_TYPE");
-		queryColumnNames1.add("DATA_LENGTH");
-		queryColumnNames1.add("NULLABLE");
-		queryColumnNames1.add("COLUMN_ID");
-		queryColumnNames1.add("DATA_DEFAULT");
-		HashMap<String, String> conditions1 = new HashMap<String, String>(16);
-		String tableComment = null;
-		long startTimeTables = System.currentTimeMillis();
-		for (String tn : tableNames) {
-			conditions1.put("TABLE_NAME", tn);
-			tableComment = tableComments.get(tn);
-			TablesExport.export(USER_TAB_COLUMNS, tableComment, queryColumnNames1, conditions1, FILEPATH, FILETYPE);
+		try {
+			ArrayList<String> tableNames = TablesUtils.getTableNames(USER_TABLES, queryColumnNames, conditions);
+			
+			// 获取所有表描述
+			ArrayList<String> queryColumnCommentsNames = new ArrayList<String>();
+			queryColumnCommentsNames.add("TABLE_NAME");
+			queryColumnCommentsNames.add("COMMENTS");
+			HashMap<String, String> conditionsColumnComments = new HashMap<String, String>(16);
+			conditionsColumnComments.put("instr(TABLE_NAME,'$')", "0");
+			conditionsColumnComments.put("TABLE_TYPE", "TABLE");
+			HashMap<String, String> tableComments = TablesUtils.getTableComments(USER_TAB_COMMENTS, queryColumnCommentsNames,
+					conditionsColumnComments);
+			
+			// 创建表文件
+			ArrayList<String> queryTablesColumnNames = new ArrayList<String>();
+			queryTablesColumnNames.add("TABLE_NAME");
+			queryTablesColumnNames.add("COLUMN_NAME");
+			queryTablesColumnNames.add("DATA_TYPE");
+			queryTablesColumnNames.add("DATA_LENGTH");
+			queryTablesColumnNames.add("NULLABLE");
+			queryTablesColumnNames.add("COLUMN_ID");
+			queryTablesColumnNames.add("DATA_DEFAULT");
+			HashMap<String, String> conditionsTablesColumns = new HashMap<String, String>(16);
+			String tableComment = null;
+			for (String tn : tableNames) {
+				conditionsTablesColumns.put("TABLE_NAME", tn);
+				tableComment = tableComments.get(tn);
+				TablesExport.export(USER_TAB_COLUMNS, tableComment, queryTablesColumnNames, conditionsTablesColumns, FILEPATH, FILETYPE);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		long endTimeTables = System.currentTimeMillis();
-		float secondsTables = (endTimeTables - startTimeTables) / 1000F;
-		System.out.println("写入表sql文件，耗时：" + Float.toString(secondsTables) + " second.");
-
 	}
 }

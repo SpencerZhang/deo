@@ -14,22 +14,30 @@ import java.util.Properties;
  * @author Spencer
  *
  */
-public class DBUtils {
-	// 数据库的用户名
+public class DbUtils {
+	/**
+	 * 数据库的用户名
+	 */
 	private static String USERNAME;
 
-	// 数据库的密码
+	/**
+	 * 数据库的密码
+	 */
 	private static String PASSWORD;
 
-	// 数据库的驱动信息
+	/**
+	 * 数据库的驱动信息
+	 */
 	private static String DRIVER;
 
-	// 访问数据库的地址
+	/**
+	 * 访问数据库的地址
+	 */
 	private static String URL;
 
 	static {
 		try {
-			InputStream inStream = DBUtils.class.getResourceAsStream("./jdbc.properties");
+			InputStream inStream = DbUtils.class.getResourceAsStream("./jdbc.properties");
 			Properties prop = new Properties();
 			prop.load(inStream);
 			USERNAME = prop.getProperty("jdbc.username");

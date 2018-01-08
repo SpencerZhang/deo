@@ -1,76 +1,103 @@
 package io.spencer.chang.def.pojo;
 
 import java.io.Serializable;
+/**
+ * 索引
+ * @author Spencer
+ *
+ */
+public class TableIndex implements Serializable {
 
-public class TableIndex implements Serializable{
-	
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -154577242101670601L;
-	//表名
-	public String table_name;
-	// 列名
-	public String column_name;
-	// 索引描述
-	public String index_name;
-	public String getTable_name() {
-		return table_name;
+	/**
+	 * 表名
+	 */
+	public String tableName;
+	/**
+	 * 列名
+	 */
+	public String columnName;
+	/**
+	 * 索引描述
+	 */
+	public String indexName;
+
+	public String getTableName() {
+		return tableName;
 	}
-	public void setTable_name(String table_name) {
-		this.table_name = table_name;
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
-	public String getColumn_name() {
-		return column_name;
+
+	public String getColumnName() {
+		return columnName;
 	}
-	public void setColumn_name(String column_name) {
-		this.column_name = column_name;
+
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
 	}
-	public String getIndex_name() {
-		return index_name;
+
+	public String getIndexName() {
+		return indexName;
 	}
-	public void setIndex_name(String index_name) {
-		this.index_name = index_name;
+
+	public void setIndexName(String indexName) {
+		this.indexName = indexName;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((column_name == null) ? 0 : column_name.hashCode());
-		result = prime * result + ((index_name == null) ? 0 : index_name.hashCode());
-		result = prime * result + ((table_name == null) ? 0 : table_name.hashCode());
+		result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
+		result = prime * result + ((indexName == null) ? 0 : indexName.hashCode());
+		result = prime * result + ((tableName == null) ? 0 : tableName.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		TableIndex other = (TableIndex) obj;
-		if (column_name == null) {
-			if (other.column_name != null)
+		if (columnName == null) {
+			if (other.columnName != null) {
 				return false;
-		} else if (!column_name.equals(other.column_name))
+			}
+		} else if (!columnName.equals(other.columnName)) {
 			return false;
-		if (index_name == null) {
-			if (other.index_name != null)
+		}
+		if (indexName == null) {
+			if (other.indexName != null) {
 				return false;
-		} else if (!index_name.equals(other.index_name))
+			}
+		} else if (!indexName.equals(other.indexName)) {
 			return false;
-		if (table_name == null) {
-			if (other.table_name != null)
+		}
+		if (tableName == null) {
+			if (other.tableName != null) {
 				return false;
-		} else if (!table_name.equals(other.table_name))
+			}
+		} else if (!tableName.equals(other.tableName)) {
 			return false;
+		}
 		return true;
 	}
+
 	@Override
 	public String toString() {
-		return "TableIndex [table_name=" + table_name + ", column_name=" + column_name + ", index_name=" + index_name
+		return "TableIndex [tableName=" + tableName + ", columnName=" + columnName + ", indexName=" + indexName
 				+ "]";
 	}
 }
