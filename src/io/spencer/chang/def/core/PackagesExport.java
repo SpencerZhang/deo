@@ -19,7 +19,7 @@ public class PackagesExport {
 	/**
 	 * 数据源表
 	 */
-	private final static String SOURCE_TABLE = "ALL_SOURCE";
+	private final static String SOURCE_TABLE = "USER_SOURCE";
 	/**
 	 * 导出类型
 	 */
@@ -53,7 +53,7 @@ public class PackagesExport {
 	 * @param fileType
 	 *            文件类型
 	 */
-	private static void export(ArrayList<String> packageNames, String type, String owner, String tableName,
+	private static void export(ArrayList<String> packageNames, String type, String tableName,
 			String filePath, String fileType) {
 		//final String QUERY_MAX_NAME = "LINE";
 		final String queryContentName = "TEXT";
@@ -64,16 +64,25 @@ public class PackagesExport {
 					File file = new File(fileFullPath);
 					HashMap<String, String> contentConditions = new HashMap<String, String>(16);
 					contentConditions.put("TYPE", type);
-					contentConditions.put("OWNER", owner);
 					contentConditions.put("NAME", s);
 					ArrayList<String> contents = LineContentUtils.getContents(tableName, queryContentName,
 							contentConditions);
 					contents.forEach((c) -> {
 						String content = null;
 						if (type == TYPE_PACKAGE_HEADER) {
-							content = c.replace("PACKAGE", "CREATE OR REPLACE PACKAGE");
-						}else if (type == TYPE_PACKAGE_BODY) {
-							content = c.replace("PACKAGE BODY", "CREATE OR REPLACE PACKAGE BODY");
+							if (c.toUpperCase().startsWith(TYPE_PACKAGE_HEADER)) {
+								content = c.toUpperCase().replace("PACKAGE", "CREATE OR REPLACE PACKAGE");
+							} else {
+								content = c;
+							}
+
+						} else if (type == TYPE_PACKAGE_BODY) {
+							if (c.toUpperCase().startsWith(TYPE_PACKAGE_BODY)) {
+								content = "\n" + "/" + "\n";
+								content = content + c.toUpperCase().replace("PACKAGE BODY", "CREATE OR REPLACE PACKAGE BODY");
+							} else {
+								content = c;
+							}
 						}
 						if (!file.exists()) {
 							try {
@@ -94,20 +103,19 @@ public class PackagesExport {
 			e.printStackTrace();
 		}
 	}
-	public void export(String owner) {
+	public void export() {
 		final String queryName = "NAME";
 		HashMap<String, String> conditions = new HashMap<String, String>(16);
-		conditions.put("OWNER", owner);
 		conditions.put("TYPE", TYPE_PACKAGE_HEADER);
 		ArrayList<String> packageNames;
 		try {
 			//获取package names
 			packageNames = PackagesUtils.getPackageNames(SOURCE_TABLE, queryName, conditions);
 			//导出package header
-			PackagesExport.export(packageNames, TYPE_PACKAGE_HEADER, owner, SOURCE_TABLE, FILEPATH,
+			PackagesExport.export(packageNames, TYPE_PACKAGE_HEADER, SOURCE_TABLE, FILEPATH,
 					FILETYPE);
 			//导出package body
-			PackagesExport.export(packageNames, TYPE_PACKAGE_BODY, owner, SOURCE_TABLE, FILEPATH, FILETYPE);
+			PackagesExport.export(packageNames, TYPE_PACKAGE_BODY, SOURCE_TABLE, FILEPATH, FILETYPE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
