@@ -94,6 +94,8 @@ public class TablesExport {
 					conditions);
 			// 写入索引
 			FileUtils.writeFileTableIndexs(file, indexs);
+			//写入脚本底部内容
+			FileUtils.writeFileFooter(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
