@@ -41,10 +41,6 @@ public class TablesExport {
 	 */
 	private final static String USER_IND_COLUMNS = "USER_IND_COLUMNS";
 	/**
-	 * 文件默认保存在当然操作系统用户目录下
-	 */
-	private final static String FILEPATH = System.getProperty("user.home");
-	/**
 	 * 文件类型默认pck
 	 */
 	private final static String FILETYPE = ".sql";
@@ -101,7 +97,7 @@ public class TablesExport {
 		}
 	}
 
-	public void export() {
+	public void export(String filePath) {
 		// 获取表名
 		ArrayList<String> queryColumnNames = new ArrayList<String>();
 		queryColumnNames.add("TABLE_NAME");
@@ -135,7 +131,7 @@ public class TablesExport {
 			for (String tn : tableNames) {
 				conditionsTablesColumns.put("TABLE_NAME", tn);
 				tableComment = tableComments.get(tn);
-				TablesExport.export(USER_TAB_COLUMNS, tableComment, queryTablesColumnNames, conditionsTablesColumns, FILEPATH, FILETYPE);
+				TablesExport.export(USER_TAB_COLUMNS, tableComment, queryTablesColumnNames, conditionsTablesColumns, filePath, FILETYPE);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
