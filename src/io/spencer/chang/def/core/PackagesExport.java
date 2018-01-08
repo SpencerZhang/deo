@@ -29,10 +29,6 @@ public class PackagesExport {
 	 */
 	private final static String TYPE_PACKAGE_BODY = "PACKAGE BODY";
 	/**
-	 * 文件默认保存在当然操作系统用户目录下
-	 */
-	private final static String FILEPATH = System.getProperty("user.home");
-	/**
 	 * 文件类型默认pck
 	 */
 	private final static String FILETYPE = ".pck";
@@ -55,7 +51,6 @@ public class PackagesExport {
 	 */
 	private static void export(ArrayList<String> packageNames, String type, String tableName,
 			String filePath, String fileType) {
-		//final String QUERY_MAX_NAME = "LINE";
 		final String queryContentName = "TEXT";
 		try {
 			packageNames.forEach((s) -> {
@@ -103,7 +98,7 @@ public class PackagesExport {
 			e.printStackTrace();
 		}
 	}
-	public void export() {
+	public void export(String filePath) {
 		final String queryName = "NAME";
 		HashMap<String, String> conditions = new HashMap<String, String>(16);
 		conditions.put("TYPE", TYPE_PACKAGE_HEADER);
@@ -112,10 +107,10 @@ public class PackagesExport {
 			//获取package names
 			packageNames = PackagesUtils.getPackageNames(SOURCE_TABLE, queryName, conditions);
 			//导出package header
-			PackagesExport.export(packageNames, TYPE_PACKAGE_HEADER, SOURCE_TABLE, FILEPATH,
+			PackagesExport.export(packageNames, TYPE_PACKAGE_HEADER, SOURCE_TABLE, filePath,
 					FILETYPE);
 			//导出package body
-			PackagesExport.export(packageNames, TYPE_PACKAGE_BODY, SOURCE_TABLE, FILEPATH, FILETYPE);
+			PackagesExport.export(packageNames, TYPE_PACKAGE_BODY, SOURCE_TABLE, filePath, FILETYPE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
