@@ -9,10 +9,6 @@
 	```
  
 ## 导出执行类：Export.java
-
-	```
-	导出package，先维护用户名String owner = "";
-	```
 	
 ## 开源协议 / License
 
